@@ -9,7 +9,7 @@ def __main__():
     domain = sys.argv[2]
     success, result = checker.check_domain(domain)
 
-    if success and result:
-        send_mail(target_mail, 'The domain {} is available!'.format(domain))
+    if success and not result:
+        send_mail(target_mail, 'Domain available!', 'The domain {} is finally available!'.format(domain))
 
 __main__()

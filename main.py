@@ -1,15 +1,14 @@
 import sys
 
-from checker import Checker
+from checker import check_domain
 from mailer import send_mail
 from settings import watched_domains, notify_mail
 
 def __main__():
-    checker = Checker()
     for domain in watched_domains:
-        success, result = checker.check_domain(domain)
+        occupied = check_domain(domain)
 
-        if success and not result:
+        if not occupied:
             send_mail(notify_mail, 'Domain available!', 'The domain {} is finally available!'.format(domain))
 
 __main__()

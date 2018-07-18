@@ -1,17 +1,10 @@
-from modules.denic import Denic
+import dns.resolver
 
-class Checker():
-    modules = [
-        Denic()
-    ]
-
-    def check_domain(self, domain):
-        for module in self.modules:
-            if not module.is_responsible(domain):
-                continue
-            success, result = module.check_domain(domain)
-            if not success:
-                continue
-
-            return (True, result)
-        return (False, None)
+def check_domain(domain):
+    resolver = dns.resolver.Resolver()
+    resolver.nameservers = ['1.1.1.1', '1.0.0.1']
+    try:
+        response = resolver.query(domain, 'NS')
+        return len(response) != 0
+    except:
+        return False
